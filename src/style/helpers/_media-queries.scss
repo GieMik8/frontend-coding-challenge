@@ -1,0 +1,43 @@
+// -----------------------------------------------------------------------------
+//
+//      Mixin to target browsers
+//
+// -----------------------------------------------------------------------------
+@mixin browser($browser, $version: false) {
+    @if $browser and $version {
+        .browser-#{$browser}.v-#{$version} & {
+            @content;
+        }
+    } @else if ($browser) {
+        .browser-#{$browser} & {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+// -----------------------------------------------------------------------------
+//
+//    Media query mixin
+//
+// -----------------------------------------------------------------------------
+@mixin mq($width, $type: min, $browser: false, $version: false) {
+    @if map_has_key($breakpoints, $width) {
+        $width: map_get($breakpoints, $width);
+        @if $type == max {
+            $width: $width - 1px;
+        }
+        @media only screen and (#{$type}-width: $width) {
+            @include browser($browser, $version) {
+                @content;
+            }
+        }
+    } @else {
+        @media only screen and (#{$type}-width: $width) {
+            @include browser($browser, $version) {
+                @content;
+            }
+        }
+    }
+}

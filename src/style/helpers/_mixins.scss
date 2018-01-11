@@ -1,0 +1,194 @@
+// -----------------------------------------------------------------------------
+//
+//      Mixin to force element to display in new row
+//
+// -----------------------------------------------------------------------------
+@mixin clearfix {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Mixin to edit placeholder
+//
+// -----------------------------------------------------------------------------
+@mixin input-placeholder {
+    &.placeholder { @content; }
+    &:-moz-placeholder { @content; }
+    &::-moz-placeholder { @content; }
+    &:-ms-input-placeholder { @content; }
+    &::-webkit-input-placeholder { @content; }
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Function - string replace helper
+//
+// -----------------------------------------------------------------------------
+@function str-replace($string, $search, $replace: "") {
+	$index: str-index($string, $search);
+
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+
+	@return $string;
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Mixin to import font faces
+//
+// -----------------------------------------------------------------------------
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: otf eot woff2 woff ttf svg) {
+	$src: null;
+
+	$extmods: (
+		eot: "?",
+		svg: "#" + str-replace($name, " ", "_")
+	);
+
+	$formats: (
+		otf: "opentype",
+		ttf: "truetype"
+	);
+
+	@each $ext in $exts {
+		$extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+		$format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+		$src: append($src, url(quote($fontsDirectory + $path + "." + $extmod)) format(quote($format)), comma);
+	}
+
+	@font-face {
+		font-family: quote($name);
+		font-style: $style;
+		font-weight: $weight;
+		src: $src;
+	}
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Mixin to fill/spread current element inside element above
+//
+// -----------------------------------------------------------------------------
+@mixin inner-stretch($position: 'absolute') {
+    position: $position;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Mixin to disable autoprefixer
+//
+// -----------------------------------------------------------------------------
+@mixin off() {
+    /* autoprefixer: off */
+    @content;
+    /* autoprefixer: on */
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Mixin to control font sizes
+//
+// -----------------------------------------------------------------------------
+
+@mixin fs($sizeValue: 1.6) {
+    font-size: ($sizeValue) + px;
+    font-size: (0.0625 * $sizeValue) + rem;
+
+    svg {
+        width: $sizeValue - 3px;
+        height: $sizeValue - 3px;
+    }
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Mixins for setting Sans Serif and Serif
+//
+// -----------------------------------------------------------------------------
+@mixin sans-serif {
+    font-family: sans-serif; 
+}
+
+@mixin serif {
+    font-family: serif; 
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Function z to get an appropriate z-index
+//
+// -----------------------------------------------------------------------------
+@function z($layer) {
+    @return 10000 - index($z-layers, $layer) * 1000;
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Mixin to create a triangle
+//
+// -----------------------------------------------------------------------------
+@mixin css-triangle($color, $direction, $size: 6px, $position: absolute, $round: false){
+    @include pseudo($pos: $position);
+    width: 0;
+    height: 0;
+    @if $round {
+        border-radius: 3px;
+    }
+    @if $direction == down {
+        border-left: $size solid transparent;
+        border-right: $size solid transparent;
+        border-top: $size solid $color;
+        margin-top: 0 - round( $size / 2.5 );
+    } @else if $direction == up {
+        border-left: $size solid transparent;
+        border-right: $size solid transparent;
+        border-bottom: $size solid $color;
+        margin-bottom: 0 - round( $size / 2.5 );
+    } @else if $direction == right {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-left: $size solid $color;
+        margin-right: -$size;
+    } @else if  $direction == left {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-right: $size solid $color;
+        margin-left: -$size;
+    }
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Mixin to create a pseudo element inside
+//
+// -----------------------------------------------------------------------------
+@mixin pseudo($display: block, $pos: absolute, $content: ''){
+    content: $content;
+    display: $display;
+    position: $pos;
+}
+
+// -----------------------------------------------------------------------------
+//
+//      Mixin to create text ellipsis effect
+//
+// -----------------------------------------------------------------------------
+@mixin text-constrain() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

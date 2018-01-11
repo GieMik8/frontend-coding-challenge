@@ -1,0 +1,260 @@
+@import '../theme/settings';
+@import '../helpers/media-queries';
+
+.layout {
+    display: flex;
+    flex-wrap: wrap;
+    
+    &.sm {
+        margin: -5px;
+    }
+
+    &.sm > * {
+        padding: 5px;
+    }
+
+    &.md {
+        margin: -10px;
+    }
+
+    &.md > * {
+        padding: 10px;
+    }
+
+    &.lg {
+        margin: -15px;  
+    }
+
+    &.lg > * {
+        padding: 15px;
+    }
+}
+
+$breakpointsReady: ();
+
+@each $break, $point in $breakpoints {
+    $newBreakpoint: ($break: $point);
+    $breakpointsReady: map-merge($breakpointsReady, $newBreakpoint);
+}
+
+@each $break, $point in $breakpointsReady {
+    @include mq($point) {
+
+        // -----------------------------------------------------------------------------
+        //      Flex basis breakpoints - determine how many parts in a row
+        //      If you want 5 equal divs use: ls_5-row; if 8 use: ls_8-row 
+        // -----------------------------------------------------------------------------
+        @for $i from 1 through $grid-columns {
+            .#{$break}_#{$i}-row {
+                flex: 0 0 #{100%/$i};
+
+                @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                    max-width: #{100%/$i};
+                }
+            }
+        }
+        // Example: l-sm-basis-5_row
+
+        // -----------------------------------------------------------------------------
+        //      Flex basis breakpoints
+        //      This approach uses grid specified 1x24
+        //      If you want the div to stretch 2/3 use ...basis__16, 
+        //      if you want div to stretch 17/24 use ...basis__17
+        // -----------------------------------------------------------------------------
+        @for $i from 1 through $grid-columns {
+            .#{$break}_#{$i} {
+                flex: 0 0 #{$i * (100/$grid-columns)*1%};
+                
+                @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                    max-width: #{$i * (100/$grid-columns)*1%};
+                }
+            }
+        }
+        // Example: l-sm-basis-4
+        
+        @for $i from 1 through $grid-columns {
+            .#{$break}_#{$i*100} {
+                flex: 0 0 #{$i*100px};
+
+                @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                    min-width: #{$i*100px};
+                }
+            }
+        }
+        // Example: l-sm-basis-1000
+
+        @each $i in $custom-widths {
+            .#{$break}_#{$i} {
+                width: $i*1px;
+                flex: 0 0 #{$i*1px};
+
+                @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                    max-width: #{100%/$i};
+                }
+                // min-width: #{$i*1px};
+            }
+        }
+
+        // -----------------------------------------------------------------------------
+        //      Display breakpoints
+        // -----------------------------------------------------------------------------
+        .#{$break}_flex {
+            display: flex;
+            flex-wrap: wrap;
+            // border: solid 1px red;
+            margin: -10px;
+        
+            & > * {
+                padding: 10px;
+            }
+        }
+        // Example: l-sm-flex
+
+        .#{$break}_inline-flex {
+            display: inline-flex;
+            flex-wrap: wrap;
+        }
+        // Example: l-sm-flex
+
+        .#{$break}_grid {
+            display: grid;
+        }
+        // Example: l-sm-grid
+
+        .#{$break}_hidden {
+            display: none;
+        }
+        // Example: l-sm-hidden
+
+        .#{$break}_visible {
+            display: inherit;
+        }
+        // Example: l-sm-visible
+
+        // -----------------------------------------------------------------------------
+        //      Justify breakpoints
+        // -----------------------------------------------------------------------------
+        .#{$break}_j-center {
+            justify-content: center;
+        }
+        // Example: l-sm-justify-center
+
+        .#{$break}_j-around {
+            justify-content: space-around;
+        }
+        // Example: l-sm-justify-space-arount
+
+       .#{$break}_j-between {
+            justify-content: space-between;
+        }
+        // Example: l-sm-justify-space-between
+
+        .#{$break}_j-stretch {
+            justify-content: stretch;
+        }
+        // Example: l-sm-justify-space-between
+
+        .#{$break}_j-end {
+            justify-content: flex-end;
+        }
+        // Example: l-sm-justify-flex-end
+
+        .#{$break}_j-start {
+            justify-content: flex-start;
+        }
+        // Example: l-sm-justify-flex-start
+
+        // -----------------------------------------------------------------------------
+        //      Align breakpoints
+        // -----------------------------------------------------------------------------
+        .#{$break}_a-between {
+            align-content: space-between;
+            align-items: space-between;
+        }
+        // Example: l-sm-align-space-between
+
+        .#{$break}_a-around {
+            align-content: space-around;
+            align-items: space-around;
+        }
+        // Example: l-sm-align-space-around
+
+        .#{$break}_a-stretch {
+            align-content: stretch;
+        }
+        // Example: l-sm-align-stretch
+
+        .#{$break}_a-center {
+            align-content: center;
+            align-items: center;
+        }
+        // Example: l-sm-align-center
+
+        .#{$break}_a-end {
+            align-content: flex-end;
+            align-items: flex-end;
+        }
+        // Example: l-sm-align-flex-end
+
+        .#{$break}_a-start {
+            align-content: flex-start;
+            align-items: flex-start;
+        }
+        // Example: l-sm-align-flex-start
+
+        // -----------------------------------------------------------------------------
+        //      Align breakpoints
+        // -----------------------------------------------------------------------------
+        .#{$break}_d-column {
+            flex-direction: column;
+        }
+        // Example: l-sm-direction-column
+
+
+        .#{$break}_d-row {
+            flex-direction: row;
+        }
+        // Example: l-sm-direction-row
+
+        .#{$break}_d-column-reverse {
+            flex-direction: column-reverse;
+        }
+        // Example: l-sm-direction-column
+
+        .#{$break}_d-row-reverse {
+            flex-direction: row-reverse;
+        }
+        // Example: l-sm-direction-row
+
+        // -----------------------------------------------------------------------------
+        //      Flex Wrap breakpoints
+        // -----------------------------------------------------------------------------
+        .#{$break}_wrap {
+            flex-wrap: wrap;
+        }
+        // Example: l-sm-flex-wrap
+
+        .#{$break}_nowrap {
+            flex-wrap: nowrap;
+        }
+        // Example: l-sm-flex-nowrap
+
+        // -----------------------------------------------------------------------------
+        //      Flex Wrap breakpoints
+        // -----------------------------------------------------------------------------
+        .#{$break}_t-left {
+            text-align: left;
+        }
+        // Example: l-sm-text-left
+
+        .#{$break}_t-center {
+            text-align: center;
+        }
+        // Example: l-sm-text-center
+
+        .#{$break}_t-right {
+            text-align: right;
+        }
+        // Example: l-sm-text-right
+    }
+}
