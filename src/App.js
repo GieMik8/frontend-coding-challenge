@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import './style/grid.scss'
 import './style/style.scss'
 import ContactForm from './containers/ContactForm/ContactForm'
-import { Auxy as Aux } from './hoc/Aux'
+import Aux from './hoc/Auxy'
 
 class App extends Component {
   render() {
