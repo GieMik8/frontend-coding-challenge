@@ -61,3 +61,25 @@ main {
         margin-top: 10px;
     }
 }
+
+[disabled], .is-disabled {
+    cursor: not-allowed;
+}
+
+.btn {
+    padding: 10px;
+    min-width: 150px;
+    cursor: pointer;
+    background-color: $F;
+    outline: none;
+    border: solid 1px $gray3;
+    border-radius: 3px;
+    transition: all $trans ease-out;
+
+    &:hover {
+        background-color: $gray4;
+        border-color: $gray4;
+        color: $F;
+        transition: all $trans ease-out;
+    }
+}

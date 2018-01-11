@@ -34,38 +34,38 @@ const BirthField = (props) => {
   }
 
   return (
-    <div className="layout md">
-      <div className="ms_4">
+    <div className="layout sm ms_a-center">
+      <div className="ms_24 ml_4">
         <p>Born:</p>
       </div>
-      <div className="ms_6">
+      <div className="ms_7 ml_6">
         <Select 
           name="year"
           value={props.date.year}
           clearable={false}
-          placeholder="Year.."
+          placeholder="Year"
           onChange={(value) => props.onChange(value, 'year')}
           options={YEARS}
         />
       </div>
-      <div className="ms_9">
+      <div className="ms_10 ml_9">
         <Select 
           name="month"
           value={props.date.month}
           clearable={false}
           disabled={!props.date.year}
-          placeholder="Month.."
+          placeholder="Month"
           onChange={(value) => props.onChange(value, 'month')}
           options={MONTHS}
         />
       </div>
-      <div className="ms_5">
+      <div className="ms_7 ml_5">
         <Select 
           name="day"
           value={props.date.day}
           clearable={false}
           disabled={!props.date.year || !props.date.month}
-          placeholder="Day.."
+          placeholder="Day"
           onChange={(value) => props.onChange(value, 'day')}
           options={days}
         />

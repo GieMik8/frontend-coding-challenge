@@ -4,7 +4,6 @@ import React, { Component } from 'react'
  * Custom React Select plugin by Jed Watson
  * @see {@link https://github.com/JedWatson/react-select}
  */
-import 'react-select/dist/react-select.css';
 import Select from 'react-select'
 import { validateEmail } from '../../helpers'
 import BirthField from '../../components/ContactForm/ContactFormBirth'
@@ -18,30 +17,35 @@ class ContactForm extends Component {
         value: '',
         touched: false,
         hasErrors: false,
-        error: ''
+        error: '',
+        valid: true
       },
       email: {
         value: '',
         touched: false,
         hasErrors: false,
-        error: ''
+        error: '',
+        valid: false
       },
       category: {
         value: '',
         touched: false,
         hasErrors: false,
-        error: ''
+        error: '',
+        valid: false
       },
       favouriteBrands: {
         value: [],
         touched: false,
         hasErrors: false,
-        error: ''
+        error: '',
+        valid: true
       },
       dateOfBirth: {
         year: null,
         month: null,
-        day: null
+        day: null,
+        valid: false
       }
     },
     categories: [],
@@ -68,6 +72,15 @@ class ContactForm extends Component {
     let formData = { ...this.state.formData }
     let updatedField = { ...formData[target] }
     updatedField.value = value
+
+    switch (target) {
+      case 'category':
+        value ? updatedField.valid = true : updatedField.valid = false
+        break
+      default:
+        break
+    }
+
     formData[target] = updatedField
     this.setState({formData})
   }
@@ -83,9 +96,11 @@ class ContactForm extends Component {
         if (fullnameWords.length < 2) {
           updatedFullname.hasErrors = true
           updatedFullname.error = fullnameWords.length === 0 ? 'This field is required' : 'You need to type both: name and surname'
+          
         } else {
           updatedFullname.hasErrors = false
           updatedFullname.error = ''
+          updatedFullname.valid = true
         }
         formData.fullname = updatedFullname
         break
@@ -94,9 +109,11 @@ class ContactForm extends Component {
         if (!validateEmail(value)) {
           updatedEmail.hasErrors = true
           updatedEmail.error = 'Type a valid email please'
+          updatedEmail.valid = false
         } else {
           updatedEmail.hasErrors = false
           updatedEmail.error = ''
+          updatedEmail.valid = true
         }
         formData.email = updatedEmail
         break
@@ -115,6 +132,8 @@ class ContactForm extends Component {
     let formData = { ...this.state.formData }
     let updatedBirth = { ...formData.dateOfBirth }
     updatedBirth[target] = value
+    let updatedBirthIsValid = updatedBirth.year && updatedBirth.month && updatedBirth.day
+    updatedBirth.valid = !!updatedBirthIsValid
     formData.dateOfBirth = updatedBirth
     this.setState({formData})
   }
@@ -125,52 +144,52 @@ class ContactForm extends Component {
 
     let fullnameError = null
     if (fullname.hasErrors) {
-      fullnameError = <span>{fullname.error}</span>
+      fullnameError = <small className="ms_t-left error-message">{fullname.error}</small>
     }
 
     let emailError = null
     if (email.hasErrors) {
-      emailError = <span>{email.error}</span>
+      emailError = <small className="ms_t-left error-message">{email.error}</small>
     }
 
     return (
       <div className="form ms_t-center weight_200">
         <form onSubmit={this.submitForm}>
-          <div className="form__header">
-            <h2 className="weight_300">Get in touch with us</h2>
+          <div className="form form__header">
+            <h2 className="weight_300 striped"><span>Get in touch with us</span></h2>
           </div>
-          <div className="form__body">
+          <div className="form form__body">
             <div className="layout md">
-              <div className="ms_24 ml_12 Select--single">
+              <div className="ms_24 ts_12 Select--single">
                 <div className="Select-control">
                   <input 
                     value={fullname.value}
                     type="text"
                     onBlur={(event) => this.validateField(event.target.value, 'fullname')}
                     onChange={(event) => this.updateFormFieldValue(event.target.value, 'fullname')}
-                    placeholder="Fullname.." 
+                    placeholder="Fullname" 
                     className="Select-value" />
                 </div>
                 {fullnameError}
               </div>
-              <div className="ms_24 ml_12 Select--single">
+              <div className="ms_24 ts_12 Select--single">
                 <div className="Select-control">
                   <input 
                     value={email.value}
                     onBlur={(event) => this.validateField(event.target.value, 'email')}
                     onChange={(event) => this.updateFormFieldValue(event.target.value, 'email')}
-                    placeholder="Email.." 
+                    placeholder="Email" 
                     className="Select-value" />
                 </div>
                 {emailError}
               </div>
-              <div className="ms_24 ml_12">
+              <div className="ms_24 ts_12">
                 <BirthField 
                   date={this.state.formData.dateOfBirth}
                   onChange={(value, target) => this.updateBirth(value, target)}
                 />
               </div>
-              <div className="ms_24 ml_12">
+              <div className="ms_24 ts_12">
                 <Select
                   name="categories"
                   value={category.value}
@@ -190,8 +209,8 @@ class ContactForm extends Component {
               </div>
             </div>
           </div>
-          <div className="form__footer">
-            <button disabled={!this.state.formIsValid} className="btn btn__submit--primary" type="submit">Submit</button>
+          <div className="form form__footer">
+            <button className="btn btn__submit--primary" type="submit">Submit</button>
           </div>
         </form>
       </div>

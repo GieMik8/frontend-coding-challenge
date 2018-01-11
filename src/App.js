@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import 'react-select/dist/react-select.css';
 import './style/grid.scss'
 import './style/style.scss'
 import ContactForm from './containers/ContactForm/ContactForm'

@@ -11,3 +11,35 @@
         padding: 20px 0;
     }
 }
+
+.error-message {
+    display: block;
+    color: $danger;
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+.striped {
+    position: relative;
+
+    @include mq('ml') {
+        & > span {
+            background-color: $gray2;
+            padding: 0 20px;
+            z-index: 5;
+            position: relative;
+        }
+
+        &:before {
+            z-index: 1;
+            content: "";
+            display: block;
+            position: absolute;
+            top: 60%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: $gray3;
+        }
+    }
+}
