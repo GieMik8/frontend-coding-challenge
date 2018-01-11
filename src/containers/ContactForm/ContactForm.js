@@ -10,47 +10,46 @@ import BirthField from '../../components/ContactForm/ContactFormBirth'
 
 const CATEGORIES = ['Science', 'Advertisement', 'Politics', 'Events']
 
-class ContactForm extends Component {
-  state = {
-    formData: {
-      fullname: {
-        value: '',
-        touched: false,
-        hasErrors: false,
-        error: '',
-        valid: true
-      },
-      email: {
-        value: '',
-        touched: false,
-        hasErrors: false,
-        error: '',
-        valid: false
-      },
-      category: {
-        value: '',
-        touched: false,
-        hasErrors: false,
-        error: '',
-        valid: false
-      },
-      favouriteBrands: {
-        value: [],
-        touched: false,
-        hasErrors: false,
-        error: '',
-        valid: true
-      },
-      dateOfBirth: {
-        year: null,
-        month: null,
-        day: null,
-        valid: false
-      }
+const initialState = {
+  formData: {
+    fullname: {
+      value: '',
+      hasErrors: false,
+      error: '',
+      valid: false
     },
-    categories: [],
-    formIsValid: false
-  }
+    email: {
+      value: '',
+      hasErrors: false,
+      error: '',
+      valid: false
+    },
+    category: {
+      value: '',
+      hasErrors: false,
+      error: '',
+      valid: false
+    },
+    favouriteBrands: {
+      value: [],
+      hasErrors: false,
+      error: ''
+    },
+    dateOfBirth: {
+      year: null,
+      month: null,
+      day: null,
+      hasErrors: false,
+      error: '',
+      valid: true
+    }
+  },
+  formIsValid: false,
+  submitted: false
+}
+
+class ContactForm extends Component {
+  state = initialState
 
   componentWillMount() {
     let categories = CATEGORIES.map(cat => {
@@ -72,17 +71,19 @@ class ContactForm extends Component {
     let formData = { ...this.state.formData }
     let updatedField = { ...formData[target] }
     updatedField.value = value
+    value ? updatedField.valid = true : updatedField.valid = false
+    formData[target] = updatedField
 
-    switch (target) {
-      case 'category':
-        value ? updatedField.valid = true : updatedField.valid = false
-        break
-      default:
-        break
+    let updatedFormIsValid = true
+    for (let field in formData) {
+      updatedFormIsValid = formData[field].valid && updatedFormIsValid
     }
 
-    formData[target] = updatedField
-    this.setState({formData})
+    this.setState({formData, formIsValid: updatedFormIsValid})
+  }
+
+  resetForm() {
+    this.setState({...initialState, submitted: true})
   }
 
   validateField = (value, field) => {
@@ -96,7 +97,7 @@ class ContactForm extends Component {
         if (fullnameWords.length < 2) {
           updatedFullname.hasErrors = true
           updatedFullname.error = fullnameWords.length === 0 ? 'This field is required' : 'You need to type both: name and surname'
-          
+          updatedFullname.valid = false
         } else {
           updatedFullname.hasErrors = false
           updatedFullname.error = ''
@@ -125,22 +126,44 @@ class ContactForm extends Component {
 
   submitForm = (event) => {
     event.preventDefault()
-    alert('Submitting')
+    let formData = this.state.formData
+    let favouriteBrands = formData.favouriteBrands.value.map(x => x.label)
+    let data = {
+      fullname: formData.fullname.value,
+      email: formData.email.value,
+      dateOfBirth: `${formData.dateOfBirth.year.value}.${formData.dateOfBirth.month.value}.${formData.dateOfBirth.day.value}`,
+      category: formData.category.value,
+      favouriteBrands: favouriteBrands.join(', ')
+    }
+    console.log(data)
+    this.setState({...initialState, submitted: true})
+    setTimeout(() => {
+      this.setState({submitted: false})
+    }, 5000)
   }
 
   updateBirth = (value, target) => {
     let formData = { ...this.state.formData }
     let updatedBirth = { ...formData.dateOfBirth }
     updatedBirth[target] = value
-    let updatedBirthIsValid = updatedBirth.year && updatedBirth.month && updatedBirth.day
-    updatedBirth.valid = !!updatedBirthIsValid
+
+    if (updatedBirth.year && updatedBirth.month && updatedBirth.day) {
+      updatedBirth.valid = true
+    }
+
     formData.dateOfBirth = updatedBirth
-    this.setState({formData})
+
+    let updatedFormIsValid = true
+    for (let field in formData) {
+      updatedFormIsValid = formData[field].valid && updatedFormIsValid
+    }
+    
+    this.setState({formData, formIsValid: updatedFormIsValid})
   }
   
   render() {
-    let { fullname, category, email, favouriteBrands } = this.state.formData
-    let { categories } = this.state
+    let { fullname, category, email, favouriteBrands, dateOfBirth } = this.state.formData
+    let { submitted, categories } = this.state
 
     let fullnameError = null
     if (fullname.hasErrors) {
@@ -150,6 +173,21 @@ class ContactForm extends Component {
     let emailError = null
     if (email.hasErrors) {
       emailError = <small className="ms_t-left error-message">{email.error}</small>
+    }
+
+    let dateOfBirthError = null
+    if (dateOfBirth.hasErrors) {
+      dateOfBirthError = <small className="ms_t-left error-message">{dateOfBirth.error}</small>
+    }
+
+    let categoryError = null
+    if (category.hasErrors) {
+      categoryError = <small className="ms_t-left error-message">{category.error}</small>
+    }
+
+    let submitionConfirmed = null
+    if (submitted) {
+      submitionConfirmed = <h4 className="weight_300 striped"><span>Succesfully submitted! Check the console..</span></h4>
     }
 
     return (
@@ -188,15 +226,18 @@ class ContactForm extends Component {
                   date={this.state.formData.dateOfBirth}
                   onChange={(value, target) => this.updateBirth(value, target)}
                 />
+                {dateOfBirthError}
               </div>
               <div className="ms_24 ts_12">
                 <Select
                   name="categories"
                   value={category.value}
-                  placeholder="Select category.."
+                  clearable={false}
+                  placeholder="Select category"
                   onChange={(value) => this.updateFormFieldValue(value ? value.value : null, 'category')}
                   options={categories}
                 />
+                {categoryError}
               </div>
               <div className="ms_24">
                 <Select.Creatable
@@ -210,8 +251,9 @@ class ContactForm extends Component {
             </div>
           </div>
           <div className="form form__footer">
-            <button className="btn btn__submit--primary" type="submit">Submit</button>
+            <button disabled={!this.state.formIsValid} className="btn btn__submit--primary" type="submit">Submit</button>
           </div>
+          {submitionConfirmed}
         </form>
       </div>
     )    
