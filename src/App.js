@@ -1,16 +1,23 @@
-import React, { Component } from 'react';
-import './style/grid.scss';
-import './style/style.scss';
+import React, { Component } from 'react'
+
+import './style/grid.scss'
+import './style/style.scss'
+import ContactForm from './containers/ContactForm/ContactForm'
+import { Auxy as Aux } from './hoc/Aux'
 
 class App extends Component {
   render() {
     return (
-      <div className="layout ms_j-center">
-        <div className="ll_12">
-          <h1 className="ms_t-center">Welcome</h1>
-        </div>
-      </div>
-    );
+      <Aux>
+        <header></header>
+        <main className="layout ms_j-center ms_a-center">
+          <div className="container">
+            <ContactForm />
+          </div>
+        </main>
+        <footer></footer>
+      </Aux>
+    )
   }
 }
 
