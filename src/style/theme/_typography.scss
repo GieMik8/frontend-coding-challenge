@@ -4,9 +4,18 @@
 //
 // -----------------------------------------------------------------------------
 
-@include font-face('Roboto', 'roboto/Roboto-Regular', 400, normal, ttf);
-@include font-face('Roboto', 'roboto/Roboto-Light', 200, normal, ttf);
 @include font-face('Roboto', 'roboto/Roboto-Thin', 100, normal, ttf);
+@include font-face('Roboto', 'roboto/Roboto-ThinItalic', 100, italic, ttf);
+@include font-face('Roboto', 'roboto/Roboto-Light', 200, normal, ttf);
+@include font-face('Roboto', 'roboto/Roboto-LightItalic', 200, italic, ttf);
+@include font-face('Roboto', 'roboto/Roboto-Regular', 400, normal, ttf);
+@include font-face('Roboto', 'roboto/Roboto-RegularItalic', 400, italic, ttf);
+@include font-face('Roboto', 'roboto/Roboto-Medium', 500, normal, ttf);
+@include font-face('Roboto', 'roboto/Roboto-MediumItalic', 500, italic, ttf);
+@include font-face('Roboto', 'roboto/Roboto-Bold', 700, normal, ttf);
+@include font-face('Roboto', 'roboto/Roboto-BoldItalic', 700, italic, ttf);
+@include font-face('Roboto', 'roboto/Roboto-Black', 800, normal, ttf);
+@include font-face('Roboto', 'roboto/Roboto-BlackItalic', 800, italic, ttf);
 
 // -----------------------------------------------------------------------------
 //
