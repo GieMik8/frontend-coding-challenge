@@ -28,7 +28,7 @@ const BirthField = (props) => {
 
   if (props.date.year && props.date.month) {
     let daysOfMonth = new Date(props.date.year.value, props.date.month.value, 0).getDate();
-    for (let day = 0; day < daysOfMonth; day++ ) {
+    for (let day = 1; day < daysOfMonth; day++ ) {
       days.push({ value: day, label: day })
     }
   }

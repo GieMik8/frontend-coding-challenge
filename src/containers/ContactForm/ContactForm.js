@@ -60,7 +60,6 @@ class ContactForm extends Component {
 
   /**
   * Updates specified field in form
-  *
   * @param {Object|string|string[]} value - New value
   * @param {string} target - Field name to update
   */
@@ -191,7 +190,7 @@ class ContactForm extends Component {
     }
 
     return (
-      <div class="layout m_a-center">
+      <div className="layout m_a-center">
         <div className="form form__wrapper ms_24 ms_t-center weight_200">
           <form onSubmit={this.submitForm}>
             <div className="form form__header">
