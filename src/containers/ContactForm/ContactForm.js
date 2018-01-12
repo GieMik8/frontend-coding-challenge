@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 /**
  * Custom React Select plugin by Jed Watson
  * @see {@link https://github.com/JedWatson/react-select}
@@ -81,10 +80,6 @@ class ContactForm extends Component {
     this.setState({formData, formIsValid: updatedFormIsValid})
   }
 
-  resetForm() {
-    this.setState({...initialState, submitted: true})
-  }
-
   validateField = (value, field) => {
     let formData = { ...this.state.formData }
 
@@ -130,7 +125,7 @@ class ContactForm extends Component {
     let data = {
       fullname: formData.fullname.value,
       email: formData.email.value,
-      dateOfBirth: `${formData.dateOfBirth.year.value}.${formData.dateOfBirth.month.value}.${formData.dateOfBirth.day.value}`,
+      dateOfBirth: `${formData.dateOfBirth.year.value}/${formData.dateOfBirth.month.value}/${formData.dateOfBirth.day.value}`,
       category: formData.category.value,
       favouriteBrands: favouriteBrands.join(', ')
     }
@@ -244,6 +239,7 @@ class ContactForm extends Component {
                     multi
                     options={[]}
                     noResultsText=""
+                    placeholder="Your favourite brands"
                     onChange={(value) => this.updateFormFieldValue(value, 'favouriteBrands')}
                     value={favouriteBrands.value}
                   />
