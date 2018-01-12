@@ -15,7 +15,11 @@ class App extends Component {
             <ContactForm />
           </div>
         </main>
-        <footer></footer>
+        <footer className="layout ms_j-center ms_a-center">
+          <div className="container">
+            <h5 className="ms_t-center weight_400">Made by GieMik8 | {new Date().getFullYear()}</h5>
+          </div>
+        </footer>
       </Aux>
     )
   }

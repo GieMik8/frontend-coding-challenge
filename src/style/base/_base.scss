@@ -7,14 +7,12 @@ body {
     margin: 0;
     padding: 0;
     background-color: $gray2;
-    display: flex;
-    flex-flow: column wrap;
 }
 
 #root {
-    flex-basis: 100%;
+    min-height: 100%;
     display: flex;
-    flex-flow: column nowrap;
+    flex-direction: column;
 }
 
 a {
@@ -36,12 +34,8 @@ img {
     }
 }
 
-header {
-
-}
-
 footer {
-
+    padding: 10px 0;
 }
 
 main {
@@ -62,23 +56,26 @@ main {
     }
 }
 
-[disabled], .is-disabled {
+[disabled], .is-disabled .Select-control {
     cursor: not-allowed;
-    pointer-events: none;
+    // pointer-events: none;
     opacity: .7;
 }
 
 .btn {
     padding: 10px;
     min-width: 150px;
-    cursor: pointer;
     background-color: $F;
     outline: none;
     border: solid 1px $gray3;
     border-radius: 3px;
     transition: all $trans ease-out;
+    
+    &:enabled {
+        cursor: pointer;
+    }
 
-    &:hover {
+    &:enabled:hover {
         background-color: $gray4;
         border-color: $gray4;
         color: $F;

@@ -191,70 +191,76 @@ class ContactForm extends Component {
     }
 
     return (
-      <div className="form ms_t-center weight_200">
-        <form onSubmit={this.submitForm}>
-          <div className="form form__header">
-            <h2 className="weight_300 striped"><span>Get in touch with us</span></h2>
-          </div>
-          <div className="form form__body">
-            <div className="layout md">
-              <div className="ms_24 ts_12 Select--single">
-                <div className="Select-control">
-                  <input 
-                    value={fullname.value}
-                    type="text"
-                    onBlur={(event) => this.validateField(event.target.value, 'fullname')}
-                    onChange={(event) => this.updateFormFieldValue(event.target.value, 'fullname')}
-                    placeholder="Fullname" 
-                    className="Select-value" />
+      <div class="layout m_a-center">
+        <div className="form form__wrapper ms_24 ms_t-center weight_200">
+          <form onSubmit={this.submitForm}>
+            <div className="form form__header">
+              <h2 className="weight_300 striped"><span>Get in touch with us</span></h2>
+            </div>
+            <div className="form form__body">
+              <div className="layout md">
+                <div className="ms_24 ts_12 Select--single">
+                  <div className="Select-control">
+                    <input 
+                      value={fullname.value}
+                      type="text"
+                      onBlur={(event) => this.validateField(event.target.value, 'fullname')}
+                      onChange={(event) => this.updateFormFieldValue(event.target.value, 'fullname')}
+                      placeholder="Fullname" 
+                      className="Select-value" />
+                  </div>
+                  {fullnameError}
                 </div>
-                {fullnameError}
-              </div>
-              <div className="ms_24 ts_12 Select--single">
-                <div className="Select-control">
-                  <input 
-                    value={email.value}
-                    onBlur={(event) => this.validateField(event.target.value, 'email')}
-                    onChange={(event) => this.updateFormFieldValue(event.target.value, 'email')}
-                    placeholder="Email" 
-                    className="Select-value" />
+                <div className="ms_24 ts_12 Select--single">
+                  <div className="Select-control">
+                    <input 
+                      value={email.value}
+                      onBlur={(event) => this.validateField(event.target.value, 'email')}
+                      onChange={(event) => this.updateFormFieldValue(event.target.value, 'email')}
+                      placeholder="Email" 
+                      className="Select-value" />
+                  </div>
+                  {emailError}
                 </div>
-                {emailError}
-              </div>
-              <div className="ms_24 ts_12">
-                <BirthField 
-                  date={this.state.formData.dateOfBirth}
-                  onChange={(value, target) => this.updateBirth(value, target)}
-                />
-                {dateOfBirthError}
-              </div>
-              <div className="ms_24 ts_12">
-                <Select
-                  name="categories"
-                  value={category.value}
-                  clearable={false}
-                  placeholder="Select category"
-                  onChange={(value) => this.updateFormFieldValue(value ? value.value : null, 'category')}
-                  options={categories}
-                />
-                {categoryError}
-              </div>
-              <div className="ms_24">
-                <Select.Creatable
-                  multi
-                  options={[]}
-                  noResultsText=""
-                  onChange={(value) => this.updateFormFieldValue(value, 'favouriteBrands')}
-                  value={favouriteBrands.value}
-                />
+                <div className="ms_24 ts_12">
+                  <BirthField 
+                    date={this.state.formData.dateOfBirth}
+                    onChange={(value, target) => this.updateBirth(value, target)}
+                  />
+                  {dateOfBirthError}
+                </div>
+                <div className="ms_24 ts_12">
+                  <Select
+                    name="categories"
+                    value={category.value}
+                    clearable={false}
+                    placeholder="Select category"
+                    onChange={(value) => this.updateFormFieldValue(value ? value.value : null, 'category')}
+                    options={categories}
+                  />
+                  {categoryError}
+                </div>
+                <div className="ms_24">
+                  <Select.Creatable
+                    multi
+                    options={[]}
+                    noResultsText=""
+                    onChange={(value) => this.updateFormFieldValue(value, 'favouriteBrands')}
+                    value={favouriteBrands.value}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="form form__footer">
-            <button disabled={!this.state.formIsValid} className="btn btn__submit--primary" type="submit">Submit</button>
-          </div>
-          {submitionConfirmed}
-        </form>
+            <div className="form form__footer">
+              <button 
+                disabled={!this.state.formIsValid} 
+                title={!this.state.formIsValid ? 'Fill the form' : null}
+                className="btn btn__submit--primary" 
+                type="submit">Submit</button>
+            </div>
+            {submitionConfirmed}
+          </form>
+        </div>
       </div>
     )    
   }
