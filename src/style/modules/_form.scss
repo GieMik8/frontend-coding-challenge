@@ -3,15 +3,7 @@
         margin: 30px 0 80px;
     }
 
-    &__header {
-        padding: 20px 0;
-    }
-    
-    &__body {
-        padding: 20px 0;
-    }
-
-    &__footer {
+    &__header, &__body, &__footer {
         padding: 20px 0;
     }
 }

@@ -1,7 +1,5 @@
 .Select-value {
     border: none;
-    // width: 100%;
-    
 }
 
 input {
@@ -16,10 +14,12 @@ input {
     }
 }
 
-.Select-control, input {
+.Select-control,
+input {
     border-color: darken($gray2, 10%);
 }
 
-.Select-placeholder, .Select--single > .Select-control .Select-value {
+.Select-placeholder, 
+.Select--single > .Select-control .Select-value {
     color: $B;
 }

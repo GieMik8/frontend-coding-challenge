@@ -43,19 +43,15 @@ const initialState = {
       valid: true
     }
   },
+  categories: CATEGORIES.map(cat => {
+    return { label: cat, value: cat }
+  }),
   formIsValid: false,
   submitted: false
 }
 
 class ContactForm extends Component {
   state = initialState
-
-  componentWillMount() {
-    let categories = CATEGORIES.map(cat => {
-      return { label: cat, value: cat }
-    })
-    this.setState({categories})
-  }
 
   /**
   * Updates specified field in form
@@ -69,7 +65,7 @@ class ContactForm extends Component {
     let formData = { ...this.state.formData }
     let updatedField = { ...formData[target] }
     updatedField.value = value
-    value ? updatedField.valid = true : updatedField.valid = false
+    updatedField.valid = value ? true : false
     formData[target] = updatedField
 
     let updatedFormIsValid = true
@@ -118,7 +114,7 @@ class ContactForm extends Component {
     this.setState({formData})
   }
 
-  submitForm = (event) => {
+  submitForm = event => {
     event.preventDefault()
     let formData = this.state.formData
     let favouriteBrands = formData.favouriteBrands.value.map(x => x.label)
@@ -130,7 +126,7 @@ class ContactForm extends Component {
       favouriteBrands: favouriteBrands.join(', ')
     }
     console.log(data)
-    this.setState({...initialState, submitted: true})
+    this.setState({ ...initialState, submitted: true })
     setTimeout(() => {
       this.setState({submitted: false})
     }, 5000)
@@ -138,13 +134,8 @@ class ContactForm extends Component {
 
   updateBirth = (value, target) => {
     let formData = { ...this.state.formData }
-    let updatedBirth = { ...formData.dateOfBirth }
-    updatedBirth[target] = value
-
-    if (updatedBirth.year && updatedBirth.month && updatedBirth.day) {
-      updatedBirth.valid = true
-    }
-
+    let updatedBirth = { ...formData.dateOfBirth, [target]: value }
+    updatedBirth.valid = updatedBirth.year && updatedBirth.month && updatedBirth.day
     formData.dateOfBirth = updatedBirth
 
     let updatedFormIsValid = true
@@ -198,8 +189,8 @@ class ContactForm extends Component {
                     <input 
                       value={fullname.value}
                       type="text"
-                      onBlur={(event) => this.validateField(event.target.value, 'fullname')}
-                      onChange={(event) => this.updateFormFieldValue(event.target.value, 'fullname')}
+                      onBlur={event => this.validateField(event.target.value, 'fullname')}
+                      onChange={event => this.updateFormFieldValue(event.target.value, 'fullname')}
                       placeholder="Fullname" 
                       className="Select-value" />
                   </div>
@@ -209,8 +200,8 @@ class ContactForm extends Component {
                   <div className="Select-control">
                     <input 
                       value={email.value}
-                      onBlur={(event) => this.validateField(event.target.value, 'email')}
-                      onChange={(event) => this.updateFormFieldValue(event.target.value, 'email')}
+                      onBlur={event => this.validateField(event.target.value, 'email')}
+                      onChange={event => this.updateFormFieldValue(event.target.value, 'email')}
                       placeholder="Email" 
                       className="Select-value" />
                   </div>
@@ -229,7 +220,7 @@ class ContactForm extends Component {
                     value={category.value}
                     clearable={false}
                     placeholder="Select category"
-                    onChange={(value) => this.updateFormFieldValue(value ? value.value : null, 'category')}
+                    onChange={value => this.updateFormFieldValue(value ? value.value : null, 'category')}
                     options={categories}
                   />
                   {categoryError}
@@ -240,7 +231,7 @@ class ContactForm extends Component {
                     options={[]}
                     noResultsText=""
                     placeholder="Your favourite brands"
-                    onChange={(value) => this.updateFormFieldValue(value, 'favouriteBrands')}
+                    onChange={value => this.updateFormFieldValue(value, 'favouriteBrands')}
                     value={favouriteBrands.value}
                   />
                 </div>

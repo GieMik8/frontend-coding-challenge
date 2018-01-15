@@ -90,7 +90,7 @@ $z-layers: (
     'blackHole'
 );
 
-$custom-widths: (50);
+$custom-widths: ();
 
 // -----------------------------------------------------------------------------
 //
@@ -98,14 +98,14 @@ $custom-widths: (50);
 //
 // -----------------------------------------------------------------------------
 $breakpoints: (
-    'ms': 320px,    // Mobile Small
+    'ms': 0px,    // Mobile Small
     'ml': 500px,    // Mobile Large
     'ts': 768px,    // Tablet Small
-    'tl': 992px,    // Tablet Large
-    'ls': 1200px,   // Laptop Small
+    // 'tl': 992px,    // Tablet Large
+    // 'ls': 1200px,   // Laptop Small
     'll': 1350px,   // Laptop Large
-    'ds': 1600px,   // Desktop Small
-    'dl': 1900px,   // Desktop Large
-    'ws': 2200px,   // Widescreen Small
-    'wl': 2500px    // Widescreen large
+    // 'ds': 1600px,   // Desktop Small
+    // 'dl': 1900px,   // Desktop Large
+    // 'ws': 2200px,   // Widescreen Small
+    // 'wl': 2500px    // Widescreen large
 );

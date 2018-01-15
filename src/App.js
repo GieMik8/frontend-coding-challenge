@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import 'react-select/dist/react-select.css';
+import 'react-select/dist/react-select.css'
 import './style/grid.scss'
 import './style/style.scss'
 import ContactForm from './containers/ContactForm/ContactForm'
@@ -25,4 +25,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

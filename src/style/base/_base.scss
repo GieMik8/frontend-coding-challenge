@@ -44,7 +44,7 @@ main {
 
 .container {
     width: 800px;
-    max-width: 90%;
+    max-width: calc(100% - 60px);
     margin: 0 auto;
 }
 
@@ -56,7 +56,8 @@ main {
     }
 }
 
-[disabled], .is-disabled .Select-control {
+[disabled], 
+.is-disabled .Select-control {
     cursor: not-allowed;
     // pointer-events: none;
     opacity: .7;
